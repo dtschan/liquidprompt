@@ -1703,7 +1703,7 @@ _lp_kube()
       local namespace="${BASH_REMATCH[4]}"
       local user="${BASH_REMATCH[6]}"
     fi
-    local current_user_re="name: ${user}"$'[\t ]+user:[\t ]+token: ([^\n\t]+)'
+    local current_user_re="name: ${user}"$'[\t ]+user:[\t ]+(token|client-certificate-data): ([^\n\t]+)'
     if [[ $KCONF =~ $current_user_re ]]; then
       local token="${BASH_REMATCH[1]}"
     fi
