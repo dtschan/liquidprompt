@@ -1694,22 +1694,26 @@ _lp_kube()
 {
   KCONF=`kubectl config view | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n  /\t/g' `
 
+  #setopt BASH_REMATCH
   local current_context_name_re=$'current-context: ([^\n]+)'
 
   if [[ $KCONF =~ $current_context_name_re ]]; then
+    [[ -n $ZSH_VERSION ]] && BASH_REMATCH=( "${match[@]}" )
     current_context_re=$'context:([\t ]+cluster: ([^\t]+))?([\t ]+namespace: ([^\t]+))?([\t ]+user: ([^\t]+))?[\t ]+name: '"${BASH_REMATCH[1]}"
     if [[ $KCONF =~ $current_context_re ]]; then
+      [[ -n $ZSH_VERSION ]] && BASH_REMATCH=( "${match[@]}" )
       local cluster="${BASH_REMATCH[2]}"
       local namespace="${BASH_REMATCH[4]}"
       local user="${BASH_REMATCH[6]}"
     fi
     local current_user_re="name: ${user}"$'[\t ]+user:[\t ]+(token|client-certificate-data): ([^\n\t]+)'
     if [[ $KCONF =~ $current_user_re ]]; then
+      [[ -n $ZSH_VERSION ]] && BASH_REMATCH=( "${match[@]}" )
       local token="${BASH_REMATCH[1]}"
     fi
   fi
 
-  if [[ $token ]]; then
+  if [[ -n $token ]]; then
     echo " [${LP_COLOR_VIRTUALENV}${cluster}/${namespace}${NO_COL}]"
   fi
 }
