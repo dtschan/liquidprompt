@@ -8,6 +8,18 @@ You can even use it with your favorite shell – Bash or zsh.
 
 ![Screenshot](https://raw.github.com/nojhan/liquidprompt/master/demo.png)
 
+## About this fork
+
+This fork adds support for displaying the current Kubernetes/OpenShift 3 context in the prompt.
+On OpenShift you need to create a symlink from `oc` to `kubectl` for this to work. The
+Kubernetes context is shown whenever the context as shown by `kubectl config current-context`
+has a token or certificate associated, i.e. when you are logged into a cluster.
+To hide the context you can switch to a context without associated credentials, e.g.:
+
+    kubectl config set-context null  # Needed only once to create the context
+    kubectl config use-context null
+
+On OpenShift you can alternatively use `oc logout`.
 
 ## Features
 
