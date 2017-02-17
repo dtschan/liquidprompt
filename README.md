@@ -21,6 +21,8 @@ To hide the context you can switch to a context without associated credentials, 
 
 On OpenShift you can alternatively use `oc logout`.
 
+I'll try to get this merged back after cleaning up the implementation.
+
 ## Features
 
 If there is nothing special about the current context, the appearance of Liquid
