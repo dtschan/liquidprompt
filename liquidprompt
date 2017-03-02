@@ -1693,7 +1693,7 @@ fi
 
 _lp_kube()
 {
-  KCONF=`kubectl config view | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n  /\t/g' `
+  KCONF=`kubectl config view 2>/dev/null | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n  /\t/g' `
 
   #setopt BASH_REMATCH
   local current_context_name_re=$'current-context: ([^\n]+)'
