@@ -336,6 +336,7 @@ _lp_source_config()
     LP_ENABLE_FQDN=${LP_ENABLE_FQDN:-0}
     # LP_DISABLED_VCS_PATH="${LP_DISABLED_VCS_PATH}"
     LP_ENABLE_SUDO=${LP_ENABLE_SUDO:-0}
+    LP_ENABLE_KUBE_USER=${LP_ENABLE_KUBE_USER:-0}
 
     LP_MARK_DEFAULT="${LP_MARK_DEFAULT:-$_LP_MARK_SYMBOL}"
     LP_MARK_BATTERY="${LP_MARK_BATTERY:-"⌁"}"
@@ -1706,6 +1707,9 @@ _lp_kube()
       local cluster="${BASH_REMATCH[2]}"
       local namespace="${BASH_REMATCH[4]}"
       local user="${BASH_REMATCH[6]}"
+      if (( LP_ENABLE_KUBE_USER )); then
+        local short_user="${user%%/*}@"
+      fi
     fi
     local current_user_re="name: ${user}"$'[\t ]+user:[\t ]+(token|client-certificate-data): ([^\n\t]+)'
     if [[ $KCONF =~ $current_user_re ]]; then
@@ -1715,7 +1719,7 @@ _lp_kube()
   fi
 
   if [[ -n $token ]]; then
-    echo " [${LP_COLOR_VIRTUALENV}${cluster}/${namespace}${NO_COL}]"
+    echo " [${LP_COLOR_VIRTUALENV}${short_user}${cluster}/${namespace}${NO_COL}]"
   fi
 }
 
